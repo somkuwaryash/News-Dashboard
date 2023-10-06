@@ -1,23 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useEffect } from'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import HomePage from './pages/HomePage';
+import { useState } from 'react';
+
+
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const handleDarkMode = () => {
+    setDarkMode(darkMode => !darkMode);
+  }
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-mode')
+    } else {
+      document.body.classList.remove('dark-mode')
+    }
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar bg="dark" variant="dark">
+        <Navbar.Brand href="#home">News Dashboard</Navbar.Brand>
+        <Nav className="ml-auto">
+        </Nav>
+        <Nav className="theme-toggler">
+        <Nav.Item onClick={handleDarkMode} style={{cursor: 'pointer'}}>
+          {darkMode ? '🌙' : '☀️'}
+        </Nav.Item>
+        </Nav>
+      </Navbar>
+      <Container className='mt-4'>
+        <h3>Latest News</h3>
+        <HomePage />
+      </Container>
     </div>
   );
 }
